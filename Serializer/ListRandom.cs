@@ -10,13 +10,13 @@ namespace Serializer
         public ListNode Tail;
         public int Count;
 
-        public ListRandom() {}
+        public ListRandom() { }
 
         public ListRandom(ListNode Head, ListNode Tail, int count)
         {
-        this.Head = Head;
-        this.Tail = Tail;
-        this.Count = count;
+            this.Head = Head;
+            this.Tail = Tail;
+            this.Count = count;
         }
 
         public void Serialize(Stream s)

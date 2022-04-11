@@ -49,7 +49,7 @@ namespace Serializer
         static ListNode AddNode(ListNode previousNode, int i)
         {
             ListNode newNode = new ListNode();
-            
+
             previousNode.Data = $"Node-{i}";
             previousNode.Next = newNode;
             newNode.Previous = previousNode;
@@ -58,7 +58,7 @@ namespace Serializer
 
             //newNode.Previous = previousNode;
             //newNode.Data = $"Node-{i}";
-            
+
             //previousNode.Next = newNode;
 
             return newNode;
@@ -72,7 +72,7 @@ namespace Serializer
             int jumps = random.Next(0, count);
 
             int i = 0;
-            while(i < jumps)
+            while (i < jumps)
             {
                 randomNode = randomNode.Next;
                 i++;
