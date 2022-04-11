@@ -17,7 +17,7 @@ namespace Serializer
             PrintList(listRandomToReading);
         }
 
-        //создаём несколько ListNode и создаём из них ListRandom
+        //создаём несколько ListNode и создаём ListRandom
         static ListRandom Init()
         {
             ListRandom listRandom;

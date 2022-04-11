@@ -76,8 +76,8 @@ namespace Serializer
 
             foreach (var node in nodes)
             {
-                node.Random = nodes[int.Parse(node.Data.Split(':')[1])];
-                node.Data = node.Data.Split(':')[0];
+                node.Random = nodes[int.Parse(node.Data.Split(":")[1])];
+                node.Data = node.Data.Split(":")[0];
             }
         }
     }
