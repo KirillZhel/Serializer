@@ -23,16 +23,21 @@ namespace Serializer
         {
             System.Console.WriteLine("Serialize\n");
 
-            using (BinaryWriter writer = new BinaryWriter(s))
-            {
-                ListNode nodeTmp = Head;
+            List<ListNode> nodes = new List<ListNode>();
+            ListNode tmp = Head;
 
-                for (int i = Count - 1; i >= 0; i--)
+            while (tmp != null)
+            {
+                nodes.Add(tmp);
+                tmp = tmp.Next;
+            }
+
+            using (StreamWriter writer = new StreamWriter(s))
+            {
+                foreach (var node in nodes)
                 {
-                    writer.Write(nodeTmp.Data);
-                    writer.Write(nodeTmp.Index);
-                    writer.Write(nodeTmp.RandomIndex);
-                    nodeTmp = nodeTmp.Next;
+                    writer.WriteLine($"{node.Data}:{nodes.IndexOf(node.Random)}");
+
                 }
             }
         }
@@ -41,34 +46,38 @@ namespace Serializer
         {
             System.Console.WriteLine("Deserialize\n");
 
-            List<ListNode> listTmp = new List<ListNode>();
+            List<ListNode> nodes = new List<ListNode>();
+            ListNode tmpNode = new ListNode();
+            Count = 0;
+            Head = tmpNode;
+            string line;
 
-            using (BinaryReader reader = new BinaryReader(s))
+
+            using (StreamReader reader = new StreamReader(s))
             {
-                while (reader.PeekChar() > -1)
+                while ((line = reader.ReadLine()) != null)
                 {
-                    string data = reader.ReadString();
-                    int index = reader.ReadInt32();
-                    int randomIndex = reader.ReadInt32();
-                    
-                    listTmp.Add(new ListNode(data, index, randomIndex));
+                    if (!line.Equals(""))
+                    {
+                        Count++;
+                        tmpNode.Data = line;
+                        tmpNode.Next = new ListNode();
+                        nodes.Add(tmpNode);
+
+                        tmpNode.Next.Previous = tmpNode;
+                        tmpNode = tmpNode.Next;
+                    }
+
                 }
             }
 
-            Head = listTmp[0];
-            Tail = listTmp[listTmp.Count - 1];
-            int randomIndexTmp;
+            Tail = tmpNode.Previous;
+            Tail.Next = null;
 
-            for (int i = 1; i < listTmp.Count; i++)
+            foreach (var node in nodes)
             {
-                listTmp[i - 1].Next = listTmp[i];
-                listTmp[i].Previous = listTmp[i - 1];
-            }
-
-            foreach (var node in listTmp)
-            {
-                randomIndexTmp = node.RandomIndex;
-                node.Random = randomIndexTmp > 0 ? listTmp[randomIndexTmp] : null;
+                node.Random = nodes[int.Parse(node.Data.Split(':')[1])];
+                node.Data = node.Data.Split(':')[0];
             }
         }
     }
